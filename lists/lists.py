@@ -19,19 +19,20 @@ class ListExercise:
 
     @staticmethod
     def search(input_list: list[int], query: int) -> int:
-        low_border = 0
-        high_border = len(input_list) - 1
 
-        while low_border <= high_border:
-            current_index = (low_border + high_border) // 2
-            current_value = input_list[current_index]
+        middle_index = (len(input_list) - 1) // 2
 
-            if query == current_value:
-                return current_index
+        if middle_index < 0:
+            return -1
 
-            if query < current_value:
-                high_border = current_index - 1
-            else:
-                low_border = current_index + 1
+        middle_value = input_list[middle_index]
 
-        return -1
+        if query == middle_value:
+            return middle_index
+
+        if query < middle_value:
+            result = ListExercise.search(input_list[: middle_index - 1], query)
+            return result if result > -1 else -1
+        else:
+            result = ListExercise.search(input_list[middle_index + 1 :], query)
+            return middle_index + 1 + result if result > -1 else -1
